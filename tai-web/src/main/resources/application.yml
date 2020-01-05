@@ -3,7 +3,8 @@ spring:
     # 使用 alibaba 的 druid 连接池
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.107.226.43:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+#    url: jdbc:mysql://47.107.226.43:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://47.107.226.43:3306/test?useUnicode=true&characterEncoding=utf-8
     username: root
     password: mysql970913..
     druid:
@@ -18,5 +19,10 @@ spring:
       timeBetweenEvictionRunsMillis: 60000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
       minEvictableIdleTimeMillis: 300000
+
+mybatis:
+  config-location: classpath*:/mapper/*Mapper.xml
+
+
 server:
   port: 8888

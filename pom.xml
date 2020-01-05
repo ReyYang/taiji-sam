@@ -32,7 +32,7 @@
         <fastjson.version>1.2.62</fastjson.version>
         <lombok.version>1.18.10</lombok.version>
         <druid.version>1.1.21</druid.version>
-        <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
         <spring-boot-starter-jdbc.version>2.2.2.RELEASE</spring-boot-starter-jdbc.version>
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
     </properties>
@@ -110,16 +110,11 @@
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
 
-
-            <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
             <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring-boot-starter.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
             </dependency>
-
-
-
 
         </dependencies>
     </dependencyManagement>
