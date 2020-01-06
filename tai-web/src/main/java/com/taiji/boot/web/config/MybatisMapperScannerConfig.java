@@ -12,7 +12,7 @@ public class MybatisMapperScannerConfig {
     public MapperScannerConfigurer mapperScannerConfigurer(){
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("com.taiji.*.mapper");
+        mapperScannerConfigurer.setBasePackage("com.taiji.**.mapper");
         return mapperScannerConfigurer;
     }
 }
