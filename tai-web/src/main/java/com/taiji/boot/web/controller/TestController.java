@@ -1,7 +1,9 @@
 package com.taiji.boot.web.controller;
 
-import com.taiji.boot.buiness.user.UserBusiness;
-import com.taiji.boot.dal.base.user.entity.UserEntity;
+import com.taiji.boot.biz.business.user.UserBusiness;
+import com.taiji.boot.biz.vo.user.UserVO;
+import com.taiji.boot.common.beans.result.Result;
+import com.taiji.boot.common.beans.result.ResultUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,10 @@ public class TestController {
     private UserBusiness userBusiness;
 
     @GetMapping("/detail/{id}")
-    public UserEntity getUser(@PathVariable Integer id) {
-        return userBusiness.getUser(id);
+    public Result<UserVO> getUser(@PathVariable Integer id) {
+        Result<UserVO> userVOResult = ResultUtil.buildSuccessResult(userBusiness.getUser(id));
+        String s = userVOResult.toString();
+        System.out.println(s);
+        return userVOResult;
     }
 }
