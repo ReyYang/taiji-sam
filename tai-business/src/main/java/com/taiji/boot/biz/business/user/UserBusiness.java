@@ -19,8 +19,19 @@ public class UserBusiness {
     public UserVO getUser(Integer id) {
         UserEntity user = userService.getUserById(id);
         UserVO vo = new UserVO();
-        BeanUtil.copyProperties(user, vo);
+        BeanUtil.copyProperties(user, new UserVO());
         System.out.println(vo);
         return vo;
     }
+
+    public static void main(String[] args) {
+        UserEntity entity = new UserEntity();
+        entity.setAge(15);
+        entity.setName("yang");
+        entity.setEmail("1270730209@qq.com");
+        entity.setType(1);
+        UserVO userVO = BeanUtil.toBean(entity, UserVO.class);
+        System.out.println(userVO);
+    }
+
 }

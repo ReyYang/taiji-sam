@@ -7,6 +7,7 @@ import com.taiji.boot.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("id", userId);
         return userMapper.selectList(wrapper).get(0);
+    }
+
+    @Override
+    public List<UserEntity> getUserByWrapper(QueryWrapper<UserEntity> wrapper) {
+        return userMapper.selectList(wrapper);
     }
 
 }
