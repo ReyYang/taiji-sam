@@ -1,13 +1,13 @@
 package com.taiji.boot.web.controller;
 
+import com.taiji.boot.biz.bo.user.UserBO;
 import com.taiji.boot.biz.business.user.UserBusiness;
 import com.taiji.boot.biz.vo.user.UserVO;
+import com.taiji.boot.common.beans.page.PaginationQuery;
+import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.result.Result;
 import com.taiji.boot.common.beans.result.ResultUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,5 +30,10 @@ public class TestController {
         String s = userVOResult.toString();
         System.out.println(s);
         return userVOResult;
+    }
+
+    @PostMapping("/list/page")
+    public Result<PaginationResult<UserVO>> listPage(@RequestBody PaginationQuery<UserBO> query) {
+        return ResultUtil.buildSuccessResult(userBusiness.listPage(query));
     }
 }

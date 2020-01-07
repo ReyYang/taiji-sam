@@ -1,11 +1,10 @@
 package com.taiji.boot.common.utils.http;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 import com.taiji.boot.common.beans.exception.BaseException;
 import lombok.Builder;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,9 +20,8 @@ import java.util.stream.Collectors;
  * @author ydy
  * @date 2020/1/6 16:26
  */
+@Slf4j
 public class HttpUtils {
-
-    private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
     public final static String GET = "GET";
 
@@ -69,7 +67,7 @@ public class HttpUtils {
         }
         // 记录请求日志
         if (okHttp.requestLog) {
-            logger.debug("com.taiji.boot.common.utils.http.HttpUtils send log = [{}]", okHttp.toString());
+            log.info("com.taiji.boot.common.utils.http.HttpUtils send log = [{}]", okHttp.toString());
         }
 
         String url = okHttp.url;
@@ -109,7 +107,7 @@ public class HttpUtils {
             result = new String(bytes, okHttp.responseCharset);
             // 记录返回日志
             if (okHttp.responseLog) {
-                logger.debug("com.taiji.boot.common.utils.http.HttpUtils send log = [{}]", okHttp.toString());
+                log.info("com.taiji.boot.common.utils.http.HttpUtils send log = [{}]", okHttp.toString());
             }
         } catch (Exception e) {
             throw new BaseException(e);

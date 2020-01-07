@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectList(wrapper);
     }
 
+    @Override
+    public long countUserByWrapper(QueryWrapper<UserEntity> wrapper) {
+        return userMapper.selectCount(wrapper);
+    }
+
 }

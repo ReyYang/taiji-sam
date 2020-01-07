@@ -18,14 +18,11 @@ public class PaginationUtil {
     public static <F, T> PaginationQuery<T> transform(PaginationQuery<F> source, Function<F, T> function) {
         return transform(source, function.apply(source.getParams()));
     }
-//
-//    public static <F, T> PaginationQuery<T> transform(PaginationQuery<F> source, Class<T> targetClass) {
-//        return transform(source, x -> {
-//            T t = targetClass.newInstance();
-//            ReflectUtil.newInstance(targetClass);
-//            BeanUtil.copyProperties(x, ReflectUtil.newInstance(targetClass));
-//        });
-//    }
+
+    public static <F, T> PaginationQuery<T> transform(PaginationQuery<F> source, Class<T> targetClass) {
+        return transform(source, x -> BeanUtil.toBean(x, targetClass));
+
+    }
 
     public static <F, T> PaginationQuery<T> transform(PaginationQuery<F> source, T toParam) {
         PaginationQuery<T> target = new PaginationQuery<>();

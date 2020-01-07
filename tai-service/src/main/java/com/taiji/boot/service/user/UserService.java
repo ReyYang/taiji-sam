@@ -12,4 +12,6 @@ public interface UserService {
     UserEntity getUserById(Integer userId);
 
     List<UserEntity> getUserByWrapper(QueryWrapper<UserEntity> wrapper);
+
+    long countUserByWrapper(QueryWrapper<UserEntity> wrapper);
 }

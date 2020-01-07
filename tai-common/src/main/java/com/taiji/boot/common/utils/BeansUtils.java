@@ -7,8 +7,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 
 import java.util.*;
 import java.util.function.Function;
@@ -73,25 +71,25 @@ public class BeansUtils {
     }
 
     /**
-     * 功能描述: 将 list 转换成 对象
-     *
-     * @param fs 待转换 list
-     * @param c  class 对象
+     * 功能描述: list 转 json
+     * @param fromCollection 1
+     * @param toClass 2
      * @return : java.util.List<T>
-     * @author : ydy
-     * @date : 2020/1/7 21:41
+     * @author : yangyihui
+     * @date : 2020/1/7 0007 23:57
      */
-    public static <F, T> List<T> transformList(Collection<F> fs, Class<T> c) {
-        if (CollectionUtils.isEmpty(fs)) {
-            return Lists.newArrayList();
-        }
-        return fs.stream().map(x -> BeanUtil.toBean(x, c)).collect(Collectors.toList());
-    }
-
     public static <F, T> List<T> transformListByJSON(Collection<F> fromCollection, Class<T> toClass) {
         return transformList(fromCollection, x -> transformByJSON(x, toClass));
     }
 
+    /**
+     * 功能描述: 对象转 json
+     * @param from 1
+     * @param toClass 2
+     * @return : T
+     * @author : yangyihui
+     * @date : 2020/1/7 0007 23:58
+     */
     public static <F, T> T transformByJSON(F from, Class<T> toClass) {
         return JSON.parseObject(JSON.toJSONString(from), toClass);
     }
