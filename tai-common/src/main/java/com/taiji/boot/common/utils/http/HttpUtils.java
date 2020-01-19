@@ -236,22 +236,28 @@ public class HttpUtils {
     static class OkHttp {
         private String url;
 
+        @Builder.Default
         private String method = DEFAULT_METHOD;
 
         private String data;
 
+        @Builder.Default
         private String mediaType = DEFAULT_MEDIA_TYPE;
 
         private Map<String, String> queryMap;
 
         private Map<String, String> headerMap;
 
+        @Builder.Default
         private String requestCharset = DEFAULT_CHARSET;
 
+        @Builder.Default
         private boolean requestLog = DEFAULT_LOG;
 
+        @Builder.Default
         private String responseCharset = DEFAULT_CHARSET;
 
+        @Builder.Default
         private boolean responseLog = DEFAULT_LOG;
     }
 }

@@ -36,4 +36,9 @@ public class TestController {
     public Result<PaginationResult<UserVO>> listPage(@RequestBody PaginationQuery<UserBO> query) {
         return ResultUtil.buildSuccessResult(userBusiness.listPage(query));
     }
+
+    @PutMapping("/updateUser")
+    public Result<Boolean> updateUser(@RequestBody UserBO user) {
+        return ResultUtil.buildSuccessResult(userBusiness.updateUser(user));
+    }
 }

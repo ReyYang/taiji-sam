@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author taiji
  * @date 2020/1/7 21:32
  */
-public class BeansUtils {
+public class TaiBeansUtils {
 
     /**
      * 功能描述: list对象转换

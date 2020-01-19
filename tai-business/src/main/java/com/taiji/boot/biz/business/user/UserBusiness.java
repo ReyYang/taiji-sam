@@ -1,23 +1,24 @@
 package com.taiji.boot.biz.business.user;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.taiji.boot.biz.bo.user.UserBO;
 import com.taiji.boot.biz.vo.user.UserVO;
 import com.taiji.boot.common.beans.page.PaginationQuery;
 import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.page.PaginationUtil;
-import com.taiji.boot.common.utils.BeansUtils;
+import com.taiji.boot.common.utils.TaiBeansUtils;
 import com.taiji.boot.dal.base.user.entity.UserEntity;
 import com.taiji.boot.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.nio.file.Watchable;
 import java.util.List;
 
 @Slf4j
@@ -41,6 +42,7 @@ public class UserBusiness {
         entity.setName("yang");
         entity.setEmail("1270730209@qq.com");
         entity.setType(1);
+        entity.setUserId(12345678888855L);
         UserVO userVO = BeanUtil.toBean(entity, UserVO.class);
         System.out.println(userVO);
     }
@@ -54,7 +56,7 @@ public class UserBusiness {
         }
         long total = userService.countUserByWrapper(wrapper);
         List<UserEntity> entityList = userService.getUserByWrapper(wrapper);
-        return PaginationUtil.buildPageResult(total, BeansUtils.copyProperties(entityList, UserVO.class));
+        return PaginationUtil.buildPageResult(total, TaiBeansUtils.copyProperties(entityList, UserVO.class));
     }
 
     private QueryWrapper<UserEntity> buildQueryWrapper(UserBO params) {
@@ -69,5 +71,18 @@ public class UserBusiness {
             wrapper.eq("type", params.getType());
         }
         return wrapper;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateUser(UserBO user) {
+        UpdateWrapper<UserEntity> wrapper = buildUpdateWrapper(user);
+        UserEntity entity = BeanUtil.toBean(user, UserEntity.class);
+
+        return null;
+    }
+
+    private UpdateWrapper<UserEntity> buildUpdateWrapper(UserBO user) {
+        UpdateWrapper<UserEntity> wrapper = new UpdateWrapper<>();
+        return null;
     }
 }

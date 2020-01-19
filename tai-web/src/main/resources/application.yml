@@ -21,7 +21,7 @@ spring:
       minEvictableIdleTimeMillis: 300000
 
 mybatis:
-  config-location: classpath*:/mapper/*Mapper.xml
+  config-location: classpath*:com/taiji/**/mapper/**/*Mapper.xml
 
 
 server:
