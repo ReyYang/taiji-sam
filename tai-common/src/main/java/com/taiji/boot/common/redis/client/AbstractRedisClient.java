@@ -1,9 +1,9 @@
 package com.taiji.boot.common.redis.client;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 import com.taiji.boot.common.redis.RedisCallback;
 import com.taiji.boot.common.redis.factory.RedisInterfaceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Demo AbstractRedisClient

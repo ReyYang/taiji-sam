@@ -19,6 +19,11 @@ spring:
       timeBetweenEvictionRunsMillis: 60000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
       minEvictableIdleTimeMillis: 300000
+  redis:
+    host: 47.107.226.43
+    port: 6379
+    timeout: 3000
+    password: redis970913..
 
 mybatis:
   config-location: classpath*:com/taiji/**/mapper/**/*Mapper.xml
