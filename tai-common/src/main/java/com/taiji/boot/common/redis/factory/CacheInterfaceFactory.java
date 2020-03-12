@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @author ydy
  * @date 2020/1/18 11:56
  */
-public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
+public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory, SerializerClientInterfaceFactory {
     /**
      * 根据Key,获得value ，参数不能为空否则报异常(runtimeException)。
      *
@@ -39,7 +39,8 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
 
     /**
      * 功能描述: 先获取，如果不存在，就set 。函数式编程（取消设置过期时间）
-     * @param key 键值
+     *
+     * @param key      键值
      * @param supplier 函数表达式
      * @return : T
      * @date : 2020/1/18 19:56
@@ -48,7 +49,8 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
 
     /**
      * 功能描述: 先获取，如果不存在，就set 。函数式编程（线程安全）
-     * @param key 键值
+     *
+     * @param key      键值
      * @param supplier 函数表达式
      * @return : T
      * @date : 2020/1/18 19:56
@@ -58,7 +60,7 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
 
     /**
      * 根据key集合批量获取
-     *
+     * <p>
      * redis
      *
      * @param keys 键值
@@ -71,8 +73,8 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
      * 放入缓存的方法
      * redis  支持
      *
-     * @param key 键值
-     * @param value 资源值
+     * @param key    键值
+     * @param value  资源值
      * @param second 过期时间
      * @throws CacheException
      */
@@ -82,15 +84,15 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
      * bytes 不会再序列化
      * 需要通过getRawBytes获取
      *
-     * @param key 键值
-     * @param bytes 字节
+     * @param key    键值
+     * @param bytes  字节
      * @param second 过期时间
      */
     void putBytes(String key, byte[] bytes, int second);
 
     /**
      * 根据key删除一个值
-     *
+     * <p>
      * redis   支持
      *
      * @param key
@@ -101,13 +103,45 @@ public interface CacheInterfaceFactory extends DistributedLockInterfaceFactory {
 
     /**
      * 删除多个key
-     *
+     * <p>
      * redis        支持,并且是原子性,线程安全
      *
      * @return boolean
      * @throws CacheException
      */
     boolean delete(List<String> keys);
+
+    /**
+     * 功能描述: 加法
+     *
+     * @param key   1
+     * @param delta 2
+     * @return : long 返回加法之后的值
+     * @author : ydy
+     * @date : 2020/3/10 20:28
+     */
+    long incr(String key, long delta);
+
+    /**
+     * 功能描述: 减法
+     *
+     * @param key       1
+     * @param decrement 2
+     * @return : long 返回减法之后的值
+     * @author : ydy
+     * @date : 2020/3/10 20:29
+     */
+    long decr(String key, int decrement);
+
+    /**
+     * 功能描述: 获取incr或decr的之后的值,切记不能使用get方法,一定要使用此方法
+     *
+     * @param key 1
+     * @return : java.lang.Long
+     * @author : ydy
+     * @date : 2020/3/10 20:35
+     */
+    Long getLong(String key);
 
     /**
      * 获取缓存的有效时间 (单位毫秒)

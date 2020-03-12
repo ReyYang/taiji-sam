@@ -1,8 +1,6 @@
 package com.taiji.boot.common.redis.factory;
 
 import com.taiji.boot.common.redis.factory.operations.*;
-import com.taiji.boot.common.redis.serializer.SerializerClientInterfaceFactory;
-
 
 /**
  * redis 接口工厂
@@ -10,7 +8,7 @@ import com.taiji.boot.common.redis.serializer.SerializerClientInterfaceFactory;
  * @author ydy
  * @date 2020/1/18 11:55
  */
-public interface RedisInterfaceFactory extends CacheInterfaceFactory, HashOperations, ListOperations, SetOperations, ZSetOperations, SerializerClientInterfaceFactory {
+public interface RedisInterfaceFactory extends CacheInterfaceFactory, HashOperations, ListOperations, SetOperations, ZSetOperations {
 
     /**
      * 功能描述: 根据前缀清楚key列表

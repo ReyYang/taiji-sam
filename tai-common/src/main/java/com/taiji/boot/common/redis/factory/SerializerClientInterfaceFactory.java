@@ -1,7 +1,9 @@
-package com.taiji.boot.common.redis.serializer;
+package com.taiji.boot.common.redis.factory;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.taiji.boot.common.redis.constants.RedisConstants;
+import com.taiji.boot.common.redis.serializer.Serializer;
+import com.taiji.boot.common.redis.serializer.StringSerializer;
 
 import java.util.Objects;
 

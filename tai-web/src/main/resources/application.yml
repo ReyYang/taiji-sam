@@ -23,6 +23,17 @@ spring:
 mybatis:
   config-location: classpath*:com/taiji/**/mapper/**/*Mapper.xml
 
+redis:
+  cache:
+    prefix: TAIJI
+    host: 47.107.226.43
+    port: 6379
+    password: redis970913..
+    timeout: 3000
+    max-idle: 10
+    max-wait: 20
+    max-total: 30
+
 
 server:
   port: 8888

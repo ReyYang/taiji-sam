@@ -10,6 +10,7 @@ import com.taiji.boot.biz.vo.user.UserVO;
 import com.taiji.boot.common.beans.page.PaginationQuery;
 import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.page.PaginationUtil;
+import com.taiji.boot.common.redis.factory.CacheInterfaceFactory;
 import com.taiji.boot.common.utils.TaiBeansUtils;
 import com.taiji.boot.dal.base.user.entity.UserEntity;
 import com.taiji.boot.service.user.UserService;
@@ -27,6 +28,9 @@ public class UserBusiness {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private CacheInterfaceFactory factory;
 
     public UserVO getUser(Integer id) {
         UserEntity user = userService.getUserById(id);
@@ -84,5 +88,10 @@ public class UserBusiness {
     private UpdateWrapper<UserEntity> buildUpdateWrapper(UserBO user) {
         UpdateWrapper<UserEntity> wrapper = new UpdateWrapper<>();
         return null;
+    }
+
+    public boolean setRedis(String key, String value) {
+        factory.put(key, value, 10);
+        return true;
     }
 }

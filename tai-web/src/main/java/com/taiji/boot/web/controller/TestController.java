@@ -41,4 +41,9 @@ public class TestController {
     public Result<Boolean> updateUser(@RequestBody UserBO user) {
         return ResultUtil.buildSuccessResult(userBusiness.updateUser(user));
     }
+
+    @GetMapping("/setRedis/{key}/{value}")
+    public Result<Boolean> setRedis(@PathVariable String key, @PathVariable String value) {
+        return ResultUtil.buildSuccessResult(userBusiness.setRedis(key, value));
+    }
 }
