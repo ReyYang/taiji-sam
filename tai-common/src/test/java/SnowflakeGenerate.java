@@ -1,5 +1,3 @@
-package com.taiji.boot.common.utils;
-
 public class SnowflakeGenerate {
     /**
      * 起始的时间戳

@@ -1,5 +1,3 @@
-package com.taiji.boot.common.utils;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
