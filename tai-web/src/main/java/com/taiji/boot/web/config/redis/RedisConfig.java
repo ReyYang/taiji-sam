@@ -1,11 +1,8 @@
 package com.taiji.boot.web.config.redis;
 
+import com.taiji.boot.biz.middleware.redis.RedisClient;
 import com.taiji.boot.common.redis.config.RedisCacheConfig;
 import com.taiji.boot.common.redis.factory.CacheInterfaceFactory;
-import com.taiji.boot.web.client.RedisClient;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -7,9 +7,11 @@ import com.taiji.boot.common.beans.page.PaginationQuery;
 import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.result.Result;
 import com.taiji.boot.common.beans.result.ResultUtil;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.awt.*;
 
 /**
  * Demo TestController
@@ -18,7 +20,7 @@ import javax.annotation.Resource;
  * @date 2020/1/4 21:06
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping(value = "/test")
 public class TestController {
 
     @Resource
@@ -42,8 +44,13 @@ public class TestController {
         return ResultUtil.buildSuccessResult(userBusiness.updateUser(user));
     }
 
-    @GetMapping("/setRedis/{key}/{value}")
-    public Result<Boolean> setRedis(@PathVariable String key, @PathVariable String value) {
+    @GetMapping(value = "/setRedis/{key}/{value}")
+    public Result<Boolean> setRedis(@PathVariable("key") String key, @PathVariable("value") String value) {
         return ResultUtil.buildSuccessResult(userBusiness.setRedis(key, value));
+    }
+
+    @GetMapping(value = "/getRedis/{key}")
+    public Result<Object> getRedis(@PathVariable("key") String key) {
+        return ResultUtil.buildSuccessResult(userBusiness.getRedis(key));
     }
 }

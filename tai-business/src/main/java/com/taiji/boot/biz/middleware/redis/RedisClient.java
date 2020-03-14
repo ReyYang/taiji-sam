@@ -1,4 +1,4 @@
-package com.taiji.boot.web.client;
+package com.taiji.boot.biz.middleware.redis;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.taiji.boot.common.beans.exception.CacheException;
@@ -28,10 +28,10 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
 /**
- * redis 客户端
+ * Demo RedisClient
  *
  * @author ydy
- * @date 2020/1/18 21:03
+ * @date 2020/3/14 16:53
  */
 public class RedisClient extends AbstractRedisClient implements DisposableBean {
 

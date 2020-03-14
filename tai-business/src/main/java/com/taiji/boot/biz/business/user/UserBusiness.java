@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.taiji.boot.biz.bo.user.UserBO;
+import com.taiji.boot.biz.middleware.redis.RedisClient;
 import com.taiji.boot.biz.vo.user.UserVO;
 import com.taiji.boot.common.beans.page.PaginationQuery;
 import com.taiji.boot.common.beans.page.PaginationResult;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.nio.file.Watchable;
 import java.util.List;
 
 @Slf4j
@@ -32,12 +32,13 @@ public class UserBusiness {
     @Resource
     private CacheInterfaceFactory factory;
 
+    @Resource
+    private RedisClient redisClient;
+
+
     public UserVO getUser(Integer id) {
         UserEntity user = userService.getUserById(id);
-        UserVO vo = new UserVO();
-        BeanUtil.copyProperties(user, new UserVO());
-        System.out.println(vo);
-        return vo;
+        return BeanUtil.toBean(user, UserVO.class);
     }
 
     public static void main(String[] args) {
@@ -93,5 +94,9 @@ public class UserBusiness {
     public boolean setRedis(String key, String value) {
         factory.put(key, value, 10);
         return true;
+    }
+
+    public Object getRedis(String key) {
+        return redisClient.get(key);
     }
 }
