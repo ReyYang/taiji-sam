@@ -1,7 +1,7 @@
 package com.taiji.boot.dal.base.user.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.taiji.boot.dal.base.user.entity.UserEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.taiji.boot.dal.base.user.entity.UserEntity;
  * </p>
  *
  * @author taiji
- * @since 2020-01-05
+ * @since 2020-03-19
  */
 public interface UserMapper extends BaseMapper<UserEntity> {
 

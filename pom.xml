@@ -39,6 +39,7 @@
         <commons-collection4.version>4.4</commons-collection4.version>
         <modelmapper.version>2.3.6</modelmapper.version>
         <spring-boot-starter-data-redis.version>2.2.2.RELEASE</spring-boot-starter-data-redis.version>
+        <ons.version>1.8.4.Final</ons.version>
     </properties>
 
     <dependencyManagement>
@@ -162,7 +163,12 @@
                 <version>${spring-boot-starter-data-redis.version}</version>
             </dependency>
 
-
+            <!-- https://mvnrepository.com/artifact/com.aliyun.openservices/ons-client -->
+            <dependency>
+                <groupId>com.aliyun.openservices</groupId>
+                <artifactId>ons-client</artifactId>
+                <version>${ons.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -11,16 +11,22 @@ import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class BaseGenerator {
 
     private final static String projectPath = System.getProperty("user.dir") + "/tai-dal/src/main/";
 
     private final static String modelName = "user";
+
+    private final static String tableName = "tb_user";
+
+    // todo 后期变成配置文件
+    private final static String dataBaseUrl = "jdbc:mysql://47.107.226.43:3306/test?useUnicode=true&characterEncoding=utf-8";
+    private final static String driverName = "com.mysql.jdbc.Driver";
+    private final static String userName = "root";
+    private final static String password = "mysql970913..";
 
     /**
      * 功能描述: 代码生成器全局配置
@@ -47,8 +53,8 @@ public abstract class BaseGenerator {
      */
     protected static DataSourceConfig getDataSourceConfig() {
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setUrl("jdbc:mysql://47.107.226.43:3306/test?useUnicode=true&characterEncoding=utf-8")
-                .setDriverName("com.mysql.jdbc.Driver").setUsername("root").setPassword("mysql970913..")
+        dataSourceConfig.setUrl(dataBaseUrl)
+                .setDriverName(driverName).setUsername(userName).setPassword(password)
                 .setDbType(DbType.MYSQL).setTypeConvert(new MySqlTypeConvert()).setDbQuery(new MySqlQuery());
         return dataSourceConfig;
     }
@@ -66,7 +72,7 @@ public abstract class BaseGenerator {
                 .setEntityLombokModel(true)
                 .setEntityTableFieldAnnotationEnable(true);
         // todo 需要生成的表名-生成时修改
-        config.setInclude("tb_user");
+        config.setInclude(tableName);
         return config;
     }
 
