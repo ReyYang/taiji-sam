@@ -39,7 +39,8 @@
         <commons-collection4.version>4.4</commons-collection4.version>
         <modelmapper.version>2.3.6</modelmapper.version>
         <spring-boot-starter-data-redis.version>2.2.2.RELEASE</spring-boot-starter-data-redis.version>
-        <ons.version>1.8.4.Final</ons.version>
+        <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
+        <rocketmq-client.version>3.6.2.Final</rocketmq-client.version>
     </properties>
 
     <dependencyManagement>
@@ -163,13 +164,28 @@
                 <version>${spring-boot-starter-data-redis.version}</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/com.aliyun.openservices/ons-client -->
+            <!-- https://mvnrepository.com/artifact/com.alibaba.rocketmq/rocketmq-client -->
             <dependency>
-                <groupId>com.aliyun.openservices</groupId>
-                <artifactId>ons-client</artifactId>
-                <version>${ons.version}</version>
+                <groupId>com.alibaba.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq-client.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot-configuration-processor.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>

@@ -40,6 +40,27 @@ redis:
     max-total: 30
 
 
+rocket:
+  config:
+    consumer:
+      groupId: TAIJI_CONSUMER
+      consumeThreadMin: 20
+      consumeThreadMax: 64
+      #设置一次消费消息的条数，默认为1条
+      consumeMessageBatchMaxSize: 1
+    producer:
+      groupId: TAIJI_PRODUCER
+      maxMessageSize: 4096
+      sendMsgTimeoutMillis: 3000
+      retryTimeWhenSendFailed: 2
+    name-svr-addr: 47.107.226.43:9876
+  topic-manager:
+    user:
+      topic: TAIJI_USER
+      tags:
+        - add
+        - update
+
 server:
   port: 8888
 logging:
