@@ -8,14 +8,17 @@ import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 import com.google.common.base.Joiner;
 import com.taiji.boot.common.beans.exception.BaseException;
 import com.taiji.boot.common.rocketmq.TopicBusinessInterface;
 import com.taiji.boot.common.rocketmq.annotation.TopicMethod;
 import com.taiji.boot.common.rocketmq.constant.RocketBaseConstant;
+import com.taiji.boot.common.utils.SpringUtil;
 import com.taiji.boot.web.config.rocketmq.consumer.ConsumerProperties;
 import com.taiji.boot.web.config.rocketmq.producer.ProducerProperties;
 import com.taiji.boot.web.config.rocketmq.topic.TopicProperties;
+import com.taiji.boot.web.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeansException;
@@ -25,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.Resource;
@@ -44,7 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({RocketProperties.class, ConsumerProperties.class, ProducerProperties.class})
-public class RocketConfig extends RocketBaseConstant implements ApplicationContextAware {
+public class RocketConfig extends RocketBaseConstant {
 
     private static Map YAML_MAP;
 
@@ -62,17 +66,14 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
     @Resource
     private ProducerProperties producerProperties;
 
-    private ApplicationContext applicationContext;
+    @Resource
+    private TestListener testListener;
+
 
     @Bean(name = "userTopicProperties", initMethod = "init")
     @ConfigurationProperties(prefix = "rocket.topic-manager.user")
     public TopicProperties userTopicProperties() {
         return new TopicProperties();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 
     @Bean(destroyMethod = "shutdown")
@@ -89,8 +90,8 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
             producer.setMaxMessageSize(producerProperties.getMaxMessageSize());
             producer.setSendMsgTimeout(producerProperties.getSendMsgTimeoutMillis());
             producer.setRetryTimesWhenSendFailed(producerProperties.getRetryTimeWhenSendFailed());
-            log.info(String.format("producer is start ! groupName:[%s],nameSrvAddr:[%s]", producerProperties.getGroupId(), rocketProperties.getNameSvrAddr()));
             producer.start();
+            log.info(String.format("producer is start ! groupName:[%s],nameSrvAddr:[%s]", producerProperties.getGroupId(), rocketProperties.getNameSvrAddr()));
         } catch (MQClientException e) {
             e.printStackTrace();
             throw new BaseException(e);
@@ -112,11 +113,10 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
             consumer.setConsumeThreadMin(consumerProperties.getConsumeThreadMin());
             consumer.setConsumeThreadMax(consumerProperties.getConsumeThreadMax());
             consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> RocketConfig.this.consumeMessage(msgs));
-            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
             consumer.setConsumeMessageBatchMaxSize(consumerProperties.getConsumeMessageBatchMaxSize());
             setConsumerSubscribe(consumer);
-            log.info(String.format("consumer is start ! groupName:[%s],nameSrvAddr:[%s]", consumerProperties.getGroupId(), rocketProperties.getNameSvrAddr()));
             consumer.start();
+            log.info(String.format("consumer is start ! groupName:[%s],nameSrvAddr:[%s]", consumerProperties.getGroupId(), rocketProperties.getNameSvrAddr()));
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(e);
@@ -127,7 +127,9 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
     private void setConsumerSubscribe(DefaultMQPushConsumer consumer) {
         for (Map.Entry<String, List<String>> entry : TOPIC_TAG_MAP.entrySet()) {
             try {
-                consumer.subscribe(entry.getKey(), CollectionUtils.isNotEmpty(entry.getValue()) ? Joiner.on("||").join(entry.getValue()) : "");
+                String tags = CollectionUtils.isNotEmpty(entry.getValue()) ? Joiner.on("||").join(entry.getValue()) : "";
+                log.info("准备订阅消息：topic={}, tag={}", entry.getKey(), tags);
+                consumer.subscribe(entry.getKey(), tags);
             } catch (MQClientException e) {
                 e.printStackTrace();
                 throw new BaseException(e);
@@ -138,8 +140,8 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
 
     protected ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs) {
         MessageExt messageExt = msgs.get(0);
-        Map<String, TopicBusinessInterface> beans = this.applicationContext.getBeansOfType(TopicBusinessInterface.class);
-        ConsumeConcurrentlyStatus status = ConsumeConcurrentlyStatus.RECONSUME_LATER;
+        Map<String, TopicBusinessInterface> beans = SpringUtil.getBeanOfType(TopicBusinessInterface.class);
+        ConsumeConcurrentlyStatus status;
         try {
             Map topicMap = (LinkedHashMap) ((LinkedHashMap) YAML_MAP.get("rocket")).get("topic-manager");
             for (Map.Entry<String, TopicBusinessInterface> entry : beans.entrySet()) {
@@ -154,16 +156,16 @@ public class RocketConfig extends RocketBaseConstant implements ApplicationConte
                     String targetTopic = (String) targetTopicMap.get("topic");
                     if (messageExt.getTopic().equalsIgnoreCase(targetTopic)) {
                         status = (ConsumeConcurrentlyStatus) method.invoke(clazz.newInstance(), messageExt);
-                        break;
+                        return status;
                     }
                 } else {
                     if (messageExt.getTopic().equalsIgnoreCase(topic)) {
                         status = (ConsumeConcurrentlyStatus) method.invoke(clazz.newInstance(), messageExt);
-                        break;
+                        return status;
                     }
                 }
             }
-            return status;
+            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         } catch (Exception e) {
             // todo 异常没有抛出
             e.printStackTrace();

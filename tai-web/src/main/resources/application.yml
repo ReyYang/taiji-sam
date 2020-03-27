@@ -65,4 +65,4 @@ server:
   port: 8888
 logging:
   config: classpath:logback.xml
-debug: true
+#debug: true
