@@ -1,14 +1,6 @@
 package com.taiji.boot.web.config.rocketmq;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import com.alibaba.rocketmq.client.exception.MQClientException;
-import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
-import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
-import com.alibaba.rocketmq.common.message.MessageExt;
-import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 import com.google.common.base.Joiner;
 import com.taiji.boot.common.beans.exception.BaseException;
 import com.taiji.boot.common.rocketmq.TopicBusinessInterface;
@@ -18,21 +10,21 @@ import com.taiji.boot.common.utils.SpringUtil;
 import com.taiji.boot.web.config.rocketmq.consumer.ConsumerProperties;
 import com.taiji.boot.web.config.rocketmq.producer.ProducerProperties;
 import com.taiji.boot.web.config.rocketmq.topic.TopicProperties;
-import com.taiji.boot.web.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.BeansException;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -65,9 +57,6 @@ public class RocketConfig extends RocketBaseConstant {
 
     @Resource
     private ProducerProperties producerProperties;
-
-    @Resource
-    private TestListener testListener;
 
 
     @Bean(name = "userTopicProperties", initMethod = "init")

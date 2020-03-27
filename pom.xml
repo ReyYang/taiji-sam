@@ -40,7 +40,7 @@
         <modelmapper.version>2.3.6</modelmapper.version>
         <spring-boot-starter-data-redis.version>2.2.2.RELEASE</spring-boot-starter-data-redis.version>
         <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
-        <rocketmq-client.version>3.6.2.Final</rocketmq-client.version>
+        <rocketmq-client.version>4.4.0</rocketmq-client.version>
     </properties>
 
     <dependencyManagement>
@@ -166,7 +166,7 @@
 
             <!-- https://mvnrepository.com/artifact/com.alibaba.rocketmq/rocketmq-client -->
             <dependency>
-                <groupId>com.alibaba.rocketmq</groupId>
+                <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq-client.version}</version>
             </dependency>

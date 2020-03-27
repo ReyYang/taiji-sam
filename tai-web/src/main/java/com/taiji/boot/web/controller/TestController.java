@@ -1,10 +1,5 @@
 package com.taiji.boot.web.controller;
 
-import com.alibaba.rocketmq.client.exception.MQBrokerException;
-import com.alibaba.rocketmq.client.exception.MQClientException;
-import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
-import com.alibaba.rocketmq.common.message.Message;
-import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.taiji.boot.biz.bo.user.UserBO;
 import com.taiji.boot.biz.business.user.UserBusiness;
 import com.taiji.boot.biz.vo.user.UserVO;
@@ -13,12 +8,12 @@ import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.result.Result;
 import com.taiji.boot.common.beans.result.ResultUtil;
 import com.taiji.boot.web.config.rocketmq.topic.TopicProperties;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.awt.*;
 
 /**
  * Demo TestController

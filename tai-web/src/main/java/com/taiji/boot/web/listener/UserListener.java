@@ -1,11 +1,11 @@
 package com.taiji.boot.web.listener;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import com.alibaba.rocketmq.common.message.MessageExt;
 import com.taiji.boot.common.rocketmq.TopicBusinessInterface;
 import com.taiji.boot.common.rocketmq.annotation.TopicMethod;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.stereotype.Component;
 
 /**

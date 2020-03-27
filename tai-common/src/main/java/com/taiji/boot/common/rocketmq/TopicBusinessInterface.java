@@ -1,7 +1,7 @@
 package com.taiji.boot.common.rocketmq;
 
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import com.alibaba.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.common.message.MessageExt;
 
 /**
  * Demo TopicBusinessInterface
