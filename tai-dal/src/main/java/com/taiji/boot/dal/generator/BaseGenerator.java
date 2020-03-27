@@ -18,10 +18,6 @@ public abstract class BaseGenerator {
 
     private final static String projectPath = System.getProperty("user.dir") + "/tai-dal/src/main/";
 
-    private final static String modelName = "user";
-
-    private final static String tableName = "tb_user";
-
     // todo 后期变成配置文件
     private final static String dataBaseUrl = "jdbc:mysql://47.107.226.43:3306/test?useUnicode=true&characterEncoding=utf-8";
     private final static String driverName = "com.mysql.jdbc.Driver";
@@ -66,7 +62,7 @@ public abstract class BaseGenerator {
      * @author : yangyihui
      * @date : 2020/1/5 0005 22:57
      */
-    protected static StrategyConfig getStrategyConfig() {
+    protected static StrategyConfig getStrategyConfig(String tableName) {
         StrategyConfig config = new StrategyConfig();
         config.setTablePrefix("tb_").setNaming(NamingStrategy.underline_to_camel)
                 .setEntityLombokModel(true)
@@ -83,7 +79,7 @@ public abstract class BaseGenerator {
      * @author : yangyihui
      * @date : 2020/1/5 0005 20:29
      */
-    protected static PackageConfig getPackageConfig() {
+    protected static PackageConfig getPackageConfig(String modelName) {
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.taiji.boot.dal.base").setModuleName(modelName);
         return packageConfig;
@@ -96,7 +92,7 @@ public abstract class BaseGenerator {
      * @author : yangyihui
      * @date : 2020/1/5 0005 20:30
      */
-    protected static InjectionConfig getInjectionConfig() {
+    protected static InjectionConfig getInjectionConfig(String modelName) {
         InjectionConfig config = new InjectionConfig() {
             @Override
             public void initMap() {
@@ -109,7 +105,7 @@ public abstract class BaseGenerator {
             public String outputFile(TableInfo tableInfo) {
                 String entityName = tableInfo.getEntityName().contains("Entity") ?
                         tableInfo.getEntityName().substring(0, tableInfo.getEntityName().lastIndexOf("Entity")) : tableInfo.getEntityName();
-                return projectPath + "/resources/mapper/" + getPackageConfig().getModuleName() + "/"
+                return projectPath + "/resources/mapper/" + getPackageConfig(modelName).getModuleName() + "/"
                         + entityName + "Mapper" + StringPool.DOT_XML;
             }
         });
