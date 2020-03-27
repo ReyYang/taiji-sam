@@ -158,7 +158,7 @@ public class RocketConfig extends RocketBaseConstant {
         } catch (Exception e) {
             // todo 异常没有抛出
             e.printStackTrace();
-            throw new BaseException(e);
+            return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
     }
 
