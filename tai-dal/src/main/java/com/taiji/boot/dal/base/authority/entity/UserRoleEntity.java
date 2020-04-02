@@ -1,4 +1,4 @@
-package com.taiji.boot.dal.base.user.entity;
+package com.taiji.boot.dal.base.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户表
+ * 用户角色表
  * </p>
  *
  * @author taiji
@@ -21,8 +21,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_user")
-public class UserEntity implements Serializable {
+@TableName("tb_user_role")
+public class UserRoleEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -39,40 +39,10 @@ public class UserEntity implements Serializable {
     private Long userId;
 
     /**
-     * 登录名
+     * 角色ID
      */
-    @TableField("login_name")
-    private String loginName;
-
-    /**
-     * 登陆密码
-     */
-    @TableField("password")
-    private String password;
-
-    /**
-     * 手机号
-     */
-    @TableField("mobile_number")
-    private String mobileNumber;
-
-    /**
-     * 邮箱
-     */
-    @TableField("email")
-    private String email;
-
-    /**
-     * 真实姓名
-     */
-    @TableField("real_name")
-    private String realName;
-
-    /**
-     * 是否锁定；0：未锁定；1：已锁定
-     */
-    @TableField("locked")
-    private Boolean locked;
+    @TableField("role_id")
+    private Long roleId;
 
     /**
      * 创建时间

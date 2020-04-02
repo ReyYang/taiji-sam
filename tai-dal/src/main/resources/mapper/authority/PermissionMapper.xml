@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taiji.boot.dal.base.authority.mapper.PermissionMapper">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.taiji.boot.dal.base.authority.entity.PermissionEntity">
+        <id column="id" property="id"/>
+        <result column="permission_id" property="permissionId"/>
+        <result column="group_id" property="groupId"/>
+        <result column="url" property="url"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="sort" property="sort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, permission_id, group_id, url, name, description, status, sort, create_time, update_time
+    </sql>
+
+    <select id="selectPermissionByRoleId" parameterType="list" resultMap="BaseResultMap">
+        select
+        distinct
+        p.*
+        from tb_permission p inner join tb_role_permission rp on p.permission_id = rp.permission_id
+        where rp.role_id in
+        <foreach collection="roleIds" index="index" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

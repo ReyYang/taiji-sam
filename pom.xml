@@ -26,21 +26,23 @@
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
-        <hutool.version>5.1.0</hutool.version>
-        <guava.version>28.1-jre</guava.version>
-        <fastjson.version>1.2.62</fastjson.version>
-        <lombok.version>1.18.10</lombok.version>
-        <druid.version>1.1.21</druid.version>
-        <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
-        <spring-boot-starter-jdbc.version>2.2.2.RELEASE</spring-boot-starter-jdbc.version>
-        <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
-        <model-struct.version>1.3.0.Final</model-struct.version>
         <commons-collection4.version>4.4</commons-collection4.version>
+        <druid.version>1.1.21</druid.version>
+        <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
+        <fastjson.version>1.2.62</fastjson.version>
+        <guava.version>28.1-jre</guava.version>
+        <hutool.version>5.1.0</hutool.version>
+        <java.version>1.8</java.version>
+        <jwt.version>3.10.1</jwt.version>
+        <lombok.version>1.18.10</lombok.version>
+        <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
+        <model-struct.version>1.3.0.Final</model-struct.version>
         <modelmapper.version>2.3.6</modelmapper.version>
+        <rocketmq-client.version>4.4.0</rocketmq-client.version>
+        <spring-boot-starter-jdbc.version>2.2.2.RELEASE</spring-boot-starter-jdbc.version>
         <spring-boot-starter-data-redis.version>2.2.2.RELEASE</spring-boot-starter-data-redis.version>
         <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
-        <rocketmq-client.version>4.4.0</rocketmq-client.version>
+        <shiro.version>1.5.2</shiro.version>
     </properties>
 
     <dependencyManagement>
@@ -65,19 +67,6 @@
                 <groupId>com.taiji.boot</groupId>
                 <artifactId>tai-service</artifactId>
                 <version>${parent.version}</version>
-            </dependency>
-
-            <!-- spring-boot-test-starter -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.junit.vintage</groupId>
-                        <artifactId>junit-vintage-engine</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- hutool -->
@@ -184,6 +173,27 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-all -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-all</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/junit/junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+
         </dependencies>
 
     </dependencyManagement>

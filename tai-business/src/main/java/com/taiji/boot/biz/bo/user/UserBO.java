@@ -10,7 +10,33 @@ public class UserBO extends BaseBO {
 
     private static final long serialVersionUID = 8437885617853680372L;
 
-    private String name;
+    /**
+     * 登录名
+     */
+    private String loginName;
 
-    private Integer type;
+    /**
+     * 登陆密码
+     */
+    private String password;
+
+    /**
+     * 手机号
+     */
+    private String mobileNumber;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 真实姓名
+     */
+    private String realName;
+
+    /**
+     * 是否锁定；0：未锁定；1：已锁定
+     */
+    private Boolean locked;
 }

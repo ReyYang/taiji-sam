@@ -1,4 +1,4 @@
-package com.taiji.boot.dal.base.user.entity;
+package com.taiji.boot.dal.base.authority.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户表
+ * 权限表
  * </p>
  *
  * @author taiji
@@ -21,8 +21,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_user")
-public class UserEntity implements Serializable {
+@TableName("tb_permission")
+public class PermissionEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -33,46 +33,46 @@ public class UserEntity implements Serializable {
     private Long id;
 
     /**
-     * 用户ID
+     * 权限id
      */
-    @TableField("user_id")
-    private Long userId;
+    @TableField("permission_id")
+    private Long permissionId;
 
     /**
-     * 登录名
+     * 所属权限组id
      */
-    @TableField("login_name")
-    private String loginName;
+    @TableField("group_id")
+    private Long groupId;
 
     /**
-     * 登陆密码
+     * 权限url
      */
-    @TableField("password")
-    private String password;
+    @TableField("url")
+    private String url;
 
     /**
-     * 手机号
+     * 权限名称
      */
-    @TableField("mobile_number")
-    private String mobileNumber;
+    @TableField("name")
+    private String name;
 
     /**
-     * 邮箱
+     * 描述
      */
-    @TableField("email")
-    private String email;
+    @TableField("description")
+    private String description;
 
     /**
-     * 真实姓名
+     * 是否有效：1有效，0无效
      */
-    @TableField("real_name")
-    private String realName;
+    @TableField("status")
+    private Boolean status;
 
     /**
-     * 是否锁定；0：未锁定；1：已锁定
+     * 排序
      */
-    @TableField("locked")
-    private Boolean locked;
+    @TableField("sort")
+    private Integer sort;
 
     /**
      * 创建时间

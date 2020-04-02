@@ -19,7 +19,7 @@ public abstract class BaseGenerator {
     private final static String projectPath = System.getProperty("user.dir") + "/tai-dal/src/main/";
 
     // todo 后期变成配置文件
-    private final static String dataBaseUrl = "jdbc:mysql://47.107.226.43:3306/test?useUnicode=true&characterEncoding=utf-8";
+    private final static String dataBaseUrl = "jdbc:mysql://47.107.226.43:3306/taiji-sam?useUnicode=true&characterEncoding=utf-8";
     private final static String driverName = "com.mysql.jdbc.Driver";
     private final static String userName = "root";
     private final static String password = "mysql970913..";

@@ -9,18 +9,19 @@
     <resultMap id="BaseResultMap" type="com.taiji.boot.dal.base.user.entity.UserEntity">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
-        <result column="name" property="name" />
-        <result column="type" property="type" />
-        <result column="is_member" property="isMember" />
-        <result column="age" property="age" />
+        <result column="login_name" property="loginName" />
+        <result column="password" property="password" />
+        <result column="mobile_number" property="mobileNumber" />
         <result column="email" property="email" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_time" property="updatedTime" />
+        <result column="real_name" property="realName" />
+        <result column="locked" property="locked" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, name, type, is_member, age, email, created_time, updated_time
+        id, user_id, login_name, password, mobile_number, email, real_name, locked, create_time, update_time
     </sql>
 
 </mapper>

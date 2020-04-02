@@ -43,26 +43,6 @@ public class TestController {
         return userVOResult;
     }
 
-    @PostMapping("/list/page")
-    public Result<PaginationResult<UserVO>> listPage(@RequestBody PaginationQuery<UserBO> query) {
-        return ResultUtil.buildSuccessResult(userBusiness.listPage(query));
-    }
-
-    @PutMapping("/updateUser")
-    public Result<Boolean> updateUser(@RequestBody UserBO user) {
-        return ResultUtil.buildSuccessResult(userBusiness.updateUser(user));
-    }
-
-    @GetMapping(value = "/setRedis/{key}/{value}")
-    public Result<Boolean> setRedis(@PathVariable("key") String key, @PathVariable("value") String value) {
-        return ResultUtil.buildSuccessResult(userBusiness.setRedis(key, value));
-    }
-
-    @GetMapping(value = "/getRedis/{key}")
-    public Result<Object> getRedis(@PathVariable("key") String key) {
-        return ResultUtil.buildSuccessResult(userBusiness.getRedis(key));
-    }
-
     @GetMapping("/mq/{msg}")
     public Result<Object> testMQ(@PathVariable("msg") String msg) throws Exception {
         Message message = new Message();

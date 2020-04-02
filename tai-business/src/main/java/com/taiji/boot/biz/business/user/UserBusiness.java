@@ -12,8 +12,18 @@ import com.taiji.boot.common.beans.page.PaginationQuery;
 import com.taiji.boot.common.beans.page.PaginationResult;
 import com.taiji.boot.common.beans.page.PaginationUtil;
 import com.taiji.boot.common.redis.factory.CacheInterfaceFactory;
+import com.taiji.boot.common.utils.IdUtils;
 import com.taiji.boot.common.utils.TaiBeansUtils;
+import com.taiji.boot.common.utils.shiro.ShiroUtils;
+import com.taiji.boot.dal.base.authority.entity.PermissionEntity;
+import com.taiji.boot.dal.base.authority.entity.PermissionGroupEntity;
+import com.taiji.boot.dal.base.authority.entity.RoleEntity;
+import com.taiji.boot.dal.base.authority.form.PermissionForm;
+import com.taiji.boot.dal.base.authority.form.PermissionGroupForm;
+import com.taiji.boot.dal.base.authority.form.RoleForm;
 import com.taiji.boot.dal.base.user.entity.UserEntity;
+import com.taiji.boot.dal.base.user.form.UserForm;
+import com.taiji.boot.service.authority.AuthorityService;
 import com.taiji.boot.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -28,6 +39,9 @@ public class UserBusiness {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private AuthorityService authorityService;
 
     @Resource
     private CacheInterfaceFactory factory;
@@ -41,62 +55,23 @@ public class UserBusiness {
         return BeanUtil.toBean(user, UserVO.class);
     }
 
-    public static void main(String[] args) {
-        UserEntity entity = new UserEntity();
-        entity.setAge(15);
-        entity.setName("yang");
-        entity.setEmail("1270730209@qq.com");
-        entity.setType(1);
-        entity.setUserId(12345678888855L);
-        UserVO userVO = BeanUtil.toBean(entity, UserVO.class);
-        System.out.println(userVO);
-    }
-
-    public PaginationResult<UserVO> listPage(PaginationQuery<UserBO> query) {
-        QueryWrapper<UserEntity> wrapper = buildQueryWrapper(query.getParams());
-        if (query.isPageable()) {
-            int pageSize = query.getPageSize();
-            int start = query.getStart();
-            wrapper.last("limit " + start + StrUtil.C_COMMA + pageSize);
-        }
-        long total = userService.countUserByWrapper(wrapper);
-        List<UserEntity> entityList = userService.getUserByWrapper(wrapper);
-        return PaginationUtil.buildPageResult(total, TaiBeansUtils.copyProperties(entityList, UserVO.class));
-    }
-
-    private QueryWrapper<UserEntity> buildQueryWrapper(UserBO params) {
-        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
-        if (ObjectUtil.isNull(params)) {
-            return wrapper;
-        }
-        if (StrUtil.isNotBlank(params.getName())) {
-            wrapper.eq("name", params.getName());
-        }
-        if (ObjectUtil.isNotNull(params.getType())) {
-            wrapper.eq("type", params.getType());
-        }
-        return wrapper;
+    public UserForm getUserDetail(String username) {
+        UserForm userForm = BeanUtil.toBean(userService.getUserByLoginName(username), UserForm.class);
+        List<RoleEntity> roles = authorityService.listRoleByUserId(userForm.getUserId());
+        List<PermissionEntity> permissions = authorityService.listPermissionByRoleId(roles.parallelStream().map(RoleEntity::getRoleId).distinct().collect(Collectors.toList()));
+        List<PermissionGroupEntity> permissionGroups = authorityService.listPermissionGroupByUserIds(userForm.getUserId());
+        userForm.setRoles(TaiBeansUtils.copyProperties(roles, RoleForm.class));
+        userForm.setPermissions(TaiBeansUtils.copyProperties(permissions, PermissionForm.class));
+        userForm.setPermissionGroups(TaiBeansUtils.copyProperties(permissionGroups, PermissionGroupForm.class));
+        return BeanUtil.toBean(userService.getUserByLoginName(username), UserForm.class);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateUser(UserBO user) {
-        UpdateWrapper<UserEntity> wrapper = buildUpdateWrapper(user);
-        UserEntity entity = BeanUtil.toBean(user, UserEntity.class);
-
-        return null;
-    }
-
-    private UpdateWrapper<UserEntity> buildUpdateWrapper(UserBO user) {
-        UpdateWrapper<UserEntity> wrapper = new UpdateWrapper<>();
-        return null;
-    }
-
-    public boolean setRedis(String key, String value) {
-        factory.put(key, value, 10);
-        return true;
-    }
-
-    public Object getRedis(String key) {
-        return redisClient.get(key);
+    public Boolean save(UserBO userBO) {
+        UserEntity entity = BeanUtil.toBean(userBO, UserEntity.class);
+        entity.setUserId(IdUtils.getId());
+        entity.setPassword(ShiroUtils.getEncryptPwd(entity.getPassword(), entity.getLoginName()));
+        userService.insertUser(entity);
+        return Boolean.TRUE;
     }
 }
