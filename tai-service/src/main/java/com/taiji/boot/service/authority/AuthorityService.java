@@ -14,6 +14,12 @@ import java.util.List;
  */
 public interface AuthorityService {
 
+    void batchSaveRole(List<RoleEntity> entities);
+
+    void batchSavePermission(List<PermissionEntity> entities);
+
+    void batchSavePermissionGroup(List<PermissionGroupEntity> entities);
+
     List<PermissionEntity> listPermissionByGroupId(List<Long> groupIds);
 
     List<PermissionEntity> listPermissionByRoleId(List<Long> roleIds);

@@ -61,9 +61,6 @@ public class TaijiRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
         UserForm user = userBusiness.getUserDetail(username);
-//        UserForm user = new UserForm();
-//        user.setLoginName("yangyihui");
-//        user.setPassword("866df58f02acee5dab06812befe4a2664975b89079d85c1fdeb419e74c21c215");
         if (Objects.isNull(user)) {
             throw new UnknownAccountException("该用户不存在");
         }
