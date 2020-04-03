@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>com.taiji.boot</groupId>
-    <artifactId>tai</artifactId>
+    <artifactId>taiji-sam</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tai</name>
+    <name>taiji-sam</name>
     <description>Spring Boot Universal Project</description>
 
 
