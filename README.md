@@ -1,4 +1,7 @@
-# 钛基 WEB 框架
+# taiji-sam
+
+太极用户权限系统 Security Access Managent
+
 ### 项目结构
 - tai-business (业务层)
 - tai-common (通用层)
