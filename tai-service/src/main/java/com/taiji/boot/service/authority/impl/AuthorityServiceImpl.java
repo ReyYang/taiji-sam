@@ -34,6 +34,21 @@ public class AuthorityServiceImpl implements AuthorityService {
     private PermissionGroupMapper permissionGroupMapper;
 
     @Override
+    public void batchSaveRole(List<RoleEntity> entities) {
+
+    }
+
+    @Override
+    public void batchSavePermission(List<PermissionEntity> entities) {
+
+    }
+
+    @Override
+    public void batchSavePermissionGroup(List<PermissionGroupEntity> entities) {
+
+    }
+
+    @Override
     public List<PermissionEntity> listPermissionByGroupId(List<Long> groupIds) {
         QueryWrapper<PermissionEntity> wrapper = new QueryWrapper<>();
         wrapper.in("group_id", groupIds);
