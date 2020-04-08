@@ -28,4 +28,6 @@ public interface AuthorityService {
 
     List<PermissionGroupEntity> listPermissionGroupByUserIds(Long userId);
 
+    void lockUser(String username);
+
 }

@@ -11,6 +11,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
  */
 public class ShiroUtils {
 
+    public static final String LOGIN_ERR_CACHE_KEY = "login-error::";
+
     public static final String PUBLICKEY = "264ecdd38f300bfbe1277bc9a3568434";
 
     public static final String ALGORITHM_NAME = "SHA-256";

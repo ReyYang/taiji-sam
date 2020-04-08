@@ -2,6 +2,7 @@ package com.taiji.boot.service.authority.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.taiji.boot.common.utils.IdUtils;
 import com.taiji.boot.dal.base.authority.entity.PermissionEntity;
 import com.taiji.boot.dal.base.authority.entity.PermissionGroupEntity;
@@ -9,8 +10,11 @@ import com.taiji.boot.dal.base.authority.entity.RoleEntity;
 import com.taiji.boot.dal.base.authority.mapper.PermissionGroupMapper;
 import com.taiji.boot.dal.base.authority.mapper.PermissionMapper;
 import com.taiji.boot.dal.base.authority.mapper.RoleMapper;
+import com.taiji.boot.dal.base.user.entity.UserEntity;
+import com.taiji.boot.dal.base.user.mapper.UserMapper;
 import com.taiji.boot.service.authority.AuthorityService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,6 +36,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 
     @Resource
     private PermissionGroupMapper permissionGroupMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public void batchSaveRole(List<RoleEntity> entities) {
@@ -68,5 +75,16 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public List<PermissionGroupEntity> listPermissionGroupByUserIds(Long userId) {
         return permissionGroupMapper.selectPermissionGroupByRoleId(userId);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void lockUser(String username) {
+        UpdateWrapper<UserEntity> wrapper = new UpdateWrapper<>();
+        UserEntity entity = new UserEntity();
+        entity.setLocked(true);
+        wrapper.eq("login_name", username);
+        userMapper.update(entity, wrapper);
     }
 }
