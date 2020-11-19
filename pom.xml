@@ -43,6 +43,7 @@
         <spring-boot-starter-data-redis.version>2.2.2.RELEASE</spring-boot-starter-data-redis.version>
         <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
         <shiro.version>1.5.2</shiro.version>
+        <aliyun-sdk-oss.version>3.11.1</aliyun-sdk-oss.version>
     </properties>
 
     <dependencyManagement>
@@ -191,6 +192,12 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
 

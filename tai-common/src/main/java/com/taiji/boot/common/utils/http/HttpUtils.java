@@ -1,5 +1,6 @@
 package com.taiji.boot.common.utils.http;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.taiji.boot.common.beans.exception.BaseException;
 import lombok.Builder;
@@ -48,6 +49,95 @@ public class HttpUtils {
     private final static OkHttpClient CLIENT = new OkHttpClient.Builder()
             .connectionPool(new ConnectionPool(20, 5, TimeUnit.MINUTES))
             .readTimeout(30, TimeUnit.SECONDS).connectTimeout(30, TimeUnit.SECONDS).build();
+
+    /**
+     * 功能描述:
+     * @param url 判断是否是http开头的url
+     * @return true/false
+     * @auther YangDy
+     * @date 2020/11/19 10:08
+     */
+    public static boolean isHttp(String url) {
+        if (StrUtil.isBlank(url)) {
+            return false;
+        }
+        return url.toLowerCase().startsWith("http://");
+    }
+
+    /**
+     * 功能描述:
+     * @param url 判断是否是https开头的url
+     * @return true/false
+     * @auther YangDy
+     * @date 2020/11/19 10:08
+     */
+    public static boolean isHttps(String url) {
+        if (StrUtil.isBlank(url)) {
+            return false;
+        }
+        return url.toLowerCase().startsWith("https://");
+    }
+
+    /**
+     * 功能描述:
+     * @param path 判断是否是浏览器地址
+     * @return true/false
+     * @auther YangDy
+     * @date 2020/11/19 10:08
+     */
+    public static boolean isWebUrl(String path)
+    {
+        if (StrUtil.isBlank(path))
+        {
+            return false;
+        }
+
+        return isHttp(path) || isHttps(path);
+    }
+
+
+    public static String removeUrlProtocolAndHost(String url) {
+        boolean isUrl = isWebUrl(url);
+        if (isUrl) {
+            url = removeUrlProtocol(url);
+            if (StrUtil.isBlank(url)) {
+                return url;
+            }
+            int pos = url.indexOf("/");
+            return pos != -1 ? url.substring(pos) : "";
+        } else {
+            return url;
+        }
+    }
+
+    public static String removeUrlProtocol(String url) {
+        if (StrUtil.isBlank(url)) {
+            return url;
+        }
+        if (isWebUrl(url)) {
+            int pos = url.indexOf("http://");
+            pos = pos != -1 ? "http://".length() : "https://".length();
+            return url.substring(pos);
+        } else {
+            return url;
+        }
+    }
+
+
+    public static String getUrlDomainPartion(String url) {
+        if (StrUtil.isBlank(url)) {
+            return "";
+        }
+
+        String withoutProtocolUrl = removeUrlProtocol(url);
+        if (StrUtil.isBlank(withoutProtocolUrl)) {
+            return "";
+        }
+
+        int pos = withoutProtocolUrl.indexOf("/");
+        return pos != -1 ? withoutProtocolUrl.substring(0, pos) : withoutProtocolUrl;
+    }
+
 
     /**
      * 通用执行方法
@@ -118,12 +208,12 @@ public class HttpUtils {
     /**
      * 功能描述: GET请求
      * @param url URL地址
-     * @return : com.alibaba.fastjson.JSONObject
+     * @return : java.lang.String
      * @author : ydy
      * @date : 2019/12/23 21:39
      */
-    public static JSONObject get(String url) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).build()));
+    public static String get(String url) {
+        return execute(OkHttp.builder().url(url).build());
     }
 
     /**
@@ -134,8 +224,8 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:38
      */
-    public static JSONObject get(String url, String responseCharset) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).responseCharset(responseCharset).build()));
+    public static String get(String url, String responseCharset) {
+        return execute(OkHttp.builder().url(url).responseCharset(responseCharset).build());
     }
 
     /**
@@ -146,8 +236,8 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:38
      */
-    public static JSONObject get(String url, Map<String, String> queryMap) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).queryMap(queryMap).build()));
+    public static String get(String url, Map<String, String> queryMap) {
+        return execute(OkHttp.builder().url(url).queryMap(queryMap).build());
     }
 
     /**
@@ -160,8 +250,8 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:37
      */
-    public static JSONObject get(String url, Map<String, String> queryMap, String responseCharset) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).queryMap(queryMap).responseCharset(responseCharset).build()));
+    public static String get(String url, Map<String, String> queryMap, String responseCharset) {
+        return execute(OkHttp.builder().url(url).queryMap(queryMap).responseCharset(responseCharset).build());
     }
 
     /**
@@ -172,8 +262,8 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:48
      */
-    public static JSONObject post(String url, String data) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).method(POST).data(data).build()));
+    public static String post(String url, String data) {
+        return execute(OkHttp.builder().url(url).method(POST).data(data).build());
     }
 
     /**
@@ -186,9 +276,9 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:31
      */
-    public static JSONObject post(String url, String data, String mediaType, String responseCharset) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).method(POST).data(data).mediaType(mediaType).responseCharset(
-                responseCharset).build()));
+    public static String post(String url, String data, String mediaType, String responseCharset) {
+        return execute(OkHttp.builder().url(url).method(POST).data(data).mediaType(mediaType).responseCharset(
+                responseCharset).build());
     }
 
     /**
@@ -199,9 +289,9 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:37
      */
-    public static JSONObject postJson(String url, Object obj) {
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).method(POST).data(JSONObject.toJSONString(obj))
-                .mediaType(DEFAULT_MEDIA_TYPE).build()));
+    public static String postJson(String url, Object obj) {
+        return execute(OkHttp.builder().url(url).method(POST).data(JSONObject.toJSONString(obj))
+                .mediaType(DEFAULT_MEDIA_TYPE).build());
     }
 
     /**
@@ -212,15 +302,15 @@ public class HttpUtils {
      * @author : ydy
      * @date : 2019/12/23 21:35
      */
-    public static JSONObject postForm(String url, Map<String, String> formMap) {
+    public static String postForm(String url, Map<String, String> formMap) {
         String data = "";
         if (MapUtils.isNotEmpty(formMap)) {
             data = formMap.entrySet().stream().map(
                     entry -> String.format("%s=%s", entry.getKey(), entry.getValue())).collect(
                     Collectors.joining("&"));
         }
-        return JSONObject.parseObject(execute(OkHttp.builder().url(url).method(POST).data(data).mediaType(
-                "application/x-www-form-urlencoded").build()));
+        return execute(OkHttp.builder().url(url).method(POST).data(data).mediaType(
+                "application/x-www-form-urlencoded").build());
     }
 
     /**
